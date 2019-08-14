@@ -140,10 +140,10 @@ class IncrementSettingCommand(sublime_plugin.TextCommand):
 
             try:
                 new_value = setting_value + increment
-                message = "Changing setting %s from %s -> %s" % ( setting, setting_value, new_value )
+                message = "Changing '%s' setting %s from %s -> %s" % ( scope, setting, setting_value, new_value )
 
             except:
-                message = "[toggle_settings] Unexpected value for setting %s -> %s" % ( setting, setting_value )
+                message = "[toggle_settings] Unexpected '%s' value for setting %s -> %s" % ( scope, setting, setting_value )
                 new_value = increment
 
             print( message )
@@ -174,11 +174,11 @@ class IncrementSettingCommand(sublime_plugin.TextCommand):
                 setting_value = view.settings().get( setting, 0 )
                 new_value = setting_value + increment
 
-                message = "Changing setting %s from %s -> %s" % ( setting, setting_value, new_value )
+                message = "Changing '%s' setting %s from %s -> %s" % ( scope, setting, setting_value, new_value )
                 toggle_settings[setting] = new_value
 
             except:
-                message = "[toggle_settings] Unexpected value for setting %s -> %s" % ( setting, setting_value )
+                message = "[toggle_settings] Unexpected '%s' value for setting %s -> %s" % ( scope, setting, setting_value )
                 toggle_settings[setting] = increment
 
             if scope == 'view':
@@ -237,7 +237,7 @@ class ToggleSettingsCommand(sublime_plugin.TextCommand):
                     new_settings[setting] = new_value
                     load_settings.set( setting, new_value )
 
-            message = "Toggled settings %s" % new_settings
+            message = "Toggled '%s' settings %s" % ( scope, new_settings )
             print( message )
 
             sublime.status_message( message[:100] )
@@ -291,7 +291,7 @@ class ToggleSettingsCommand(sublime_plugin.TextCommand):
                 views = get_views( view, window, skip_panel )
                 window_settings.set( 'toggle_settings', toggle_settings )
 
-            message = "Toggled settings %s" % new_settings
+            message = "Toggled '%s' settings %s" % ( scope, new_settings )
             print( message )
 
             sublime.status_message( message[:100] )
