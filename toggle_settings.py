@@ -164,10 +164,14 @@ class IncrementSettingCommand(sublime_plugin.TextCommand):
                     view_settings = view.settings()
                     toggle_settings = view_settings.get( 'toggle_settings', {} )
 
-            else:
+            elif scope == 'window':
                 window_settings = window.settings()
                 toggle_settings = window_settings.get( 'toggle_settings', {} )
                 per_window_settings[window_id] = toggle_settings
+
+            else:
+                print( "[toggle_settings] Error: Invalid scope name '%s'!" % scope )
+                return
 
             try:
                 # print( 'running... toggle_settings', toggle_settings )
@@ -190,7 +194,7 @@ class IncrementSettingCommand(sublime_plugin.TextCommand):
                 else:
                     view_settings.set( 'toggle_settings', toggle_settings )
 
-            else:
+            elif scope == 'window':
                 toggle_settings_for_panel = window_settings.get( 'toggle_settings_for_panel', {} )
                 skip_panel = setting in toggle_settings_for_panel
 
@@ -255,10 +259,14 @@ class ToggleSettingsCommand(sublime_plugin.TextCommand):
                     view_settings = view.settings()
                     toggle_settings = view_settings.get( 'toggle_settings', {} )
 
-            else:
+            elif scope == 'window':
                 window_settings = window.settings()
                 toggle_settings = window_settings.get( 'toggle_settings', {} )
                 per_window_settings[window_id] = toggle_settings
+
+            else:
+                print( "[toggle_settings] Error: Invalid scope name '%s'!" % scope )
+                return
 
             new_settings = {}
             first_setting_value = not view.settings().get( settings[0], False )
@@ -284,7 +292,7 @@ class ToggleSettingsCommand(sublime_plugin.TextCommand):
                 else:
                     view_settings.set( 'toggle_settings', toggle_settings )
 
-            else:
+            elif scope == 'window':
                 toggle_settings_for_panel = window_settings.get( 'toggle_settings_for_panel', {} )
                 skip_panel = setting in toggle_settings_for_panel
 
