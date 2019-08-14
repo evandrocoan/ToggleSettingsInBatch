@@ -13,7 +13,7 @@ Allow you to create your own keybindings which change view, window or global set
         {"setting": "font_size", "increment": 1, "scope": "window"} },
 
 { "keys": ["ctrl+-"], "command": "increment_setting", "args":
-        {"setting": "font_size", "increment": -1, "scope": "globa"} },
+        {"setting": "font_size", "increment": -1, "scope": "global"} },
 ```
 
 
