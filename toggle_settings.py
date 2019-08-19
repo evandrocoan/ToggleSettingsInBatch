@@ -49,7 +49,10 @@ def get_views(view, window, skip_panel=False):
         if panel_view:
             views.append( panel_view )
 
-    if not is_panel_focused():
+    if is_panel_focused():
+        views = [view]
+
+    else:
         is_widget = view.settings().get( 'is_widget' )
 
         if not is_widget:
@@ -124,7 +127,7 @@ class IncrementSettingCommand(sublime_plugin.TextCommand):
     window.run_command("increment_setting", {"setting": "font_size", "increment": 1})
     """
 
-    def run(self, edit, setting, increment, scope):
+    def run(self, edit, setting, increment, scope, skip_panels=False):
         view = self.view
         window = view.window() or sublime.active_window()
         window_id = window.id()
@@ -197,7 +200,7 @@ class IncrementSettingCommand(sublime_plugin.TextCommand):
                 toggle_settings_for_panel = window_settings.get( 'toggle_settings_for_panel', {} )
                 skip_panel = setting in toggle_settings_for_panel
 
-                views = get_views( view, window, skip_panel )
+                views = get_views( view, window, skip_panel or skip_panels )
                 window_settings.set( 'toggle_settings', toggle_settings )
 
             print( message )
@@ -214,7 +217,7 @@ class ToggleSettingsCommand(sublime_plugin.TextCommand):
                         setting value.
     """
 
-    def run(self, edit, settings, same_value, scope):
+    def run(self, edit, settings, same_value, scope, skip_panels=False):
         if not isinstance(settings, list): settings = [settings]
         view = self.view
         window = view.window() or sublime.active_window()
@@ -295,7 +298,7 @@ class ToggleSettingsCommand(sublime_plugin.TextCommand):
                 toggle_settings_for_panel = window_settings.get( 'toggle_settings_for_panel', {} )
                 skip_panel = setting in toggle_settings_for_panel
 
-                views = get_views( view, window, skip_panel )
+                views = get_views( view, window, skip_panel or skip_panels )
                 window_settings.set( 'toggle_settings', toggle_settings )
 
             message = "Toggled '%s' settings %s" % ( scope, new_settings )
