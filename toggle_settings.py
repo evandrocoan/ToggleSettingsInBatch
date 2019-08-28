@@ -1,6 +1,14 @@
 import sublime
 import sublime_plugin
 
+builtin_panels = (
+    "incremental_find",
+    "find",
+    "replace",
+    "find_in_files",
+    "console",
+)
+
 per_window_settings = {}
 capture_new_window_from = None
 
@@ -35,7 +43,7 @@ def open_panel(window):
     active_panel = window.active_panel()
 
     # https://github.com/SublimeTextIssues/Core/issues/2929
-    if active_panel and active_panel != 'console':
+    if active_panel and not any( active_panel == panel for panel in builtin_panels ):
         panel_view = get_panel_view( window, active_panel )
         return panel_view
 
@@ -200,6 +208,12 @@ class IncrementSettingCommand(sublime_plugin.TextCommand):
                 toggle_settings_for_panel = window_settings.get( 'toggle_settings_for_panel', {} )
                 skip_panel = setting in toggle_settings_for_panel
 
+                # save the panel original value
+                if skip_panels:
+                    if setting not in toggle_settings_for_panel:
+                        toggle_settings_for_panel[setting] = setting_value
+                        window_settings.set( 'toggle_settings_for_panel', toggle_settings_for_panel )
+
                 views = get_views( view, window, skip_panel or skip_panels )
                 window_settings.set( 'toggle_settings', toggle_settings )
 
@@ -272,16 +286,21 @@ class ToggleSettingsCommand(sublime_plugin.TextCommand):
 
             new_settings = {}
             first_setting_value = not view.settings().get( settings[0], False )
+            toggle_settings_original = {}
 
             # print( 'Running... toggle_settings', toggle_settings )
             for setting in settings:
 
                 if same_value:
+                    toggle_settings_original[setting] = toggle_settings.get( setting, not first_setting_value )
+
                     toggle_settings[setting] = first_setting_value
                     new_settings[setting] = first_setting_value
 
                 else:
                     new_value = not view.settings().get( setting, False )
+                    toggle_settings_original[setting] = toggle_settings.get( setting, not new_value )
+
                     new_settings[setting] = new_value
                     toggle_settings[setting] = new_value
 
@@ -296,7 +315,15 @@ class ToggleSettingsCommand(sublime_plugin.TextCommand):
 
             elif scope == 'window':
                 toggle_settings_for_panel = window_settings.get( 'toggle_settings_for_panel', {} )
-                skip_panel = setting in toggle_settings_for_panel
+                skip_panel = any( setting in toggle_settings_for_panel for setting in settings )
+
+                # save the panel original value
+                if skip_panels:
+                    for key, value in toggle_settings_original.items():
+                        if key not in toggle_settings_for_panel:
+                            toggle_settings_for_panel[key] = value
+
+                    window_settings.set( 'toggle_settings_for_panel', toggle_settings_for_panel )
 
                 views = get_views( view, window, skip_panel or skip_panels )
                 window_settings.set( 'toggle_settings', toggle_settings )
