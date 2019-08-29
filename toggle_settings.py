@@ -279,20 +279,17 @@ class ToggleSettingsCommand(sublime_plugin.TextCommand):
 
             new_settings = {}
             first_setting_value = not view.settings().get( settings[0], False )
-            toggle_settings_original = {}
 
             # print( 'Running... toggle_settings', toggle_settings )
             for setting in settings:
 
                 if same_value:
-                    toggle_settings_original[setting] = toggle_settings.get( setting, not first_setting_value )
 
                     toggle_settings[setting] = first_setting_value
                     new_settings[setting] = first_setting_value
 
                 else:
                     new_value = not view.settings().get( setting, False )
-                    toggle_settings_original[setting] = toggle_settings.get( setting, not new_value )
 
                     new_settings[setting] = new_value
                     toggle_settings[setting] = new_value
