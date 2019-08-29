@@ -223,7 +223,7 @@ class ToggleSettingsCommand(sublime_plugin.TextCommand):
                         setting value.
     """
 
-    def run(self, edit, settings, same_value, scope):
+    def run(self, edit, settings, scope, same_value=True):
         if not isinstance(settings, list): settings = [settings]
         view = self.view
         window = view.window() or sublime.active_window()
