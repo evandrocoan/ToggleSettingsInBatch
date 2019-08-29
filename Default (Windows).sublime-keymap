@@ -21,7 +21,6 @@
             "settings": ["line_numbers", "fold_buttons", "mini_diff"],
             "same_value": true,
             "scope": "window",
-            "skip_panels": true,
         },
     },
 ]

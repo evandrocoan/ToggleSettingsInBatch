@@ -135,7 +135,7 @@ class IncrementSettingCommand(sublime_plugin.TextCommand):
     window.run_command("increment_setting", {"setting": "font_size", "increment": 1})
     """
 
-    def run(self, edit, setting, increment, scope, skip_panels=False):
+    def run(self, edit, setting, increment, scope):
         view = self.view
         window = view.window() or sublime.active_window()
         window_id = window.id()
@@ -223,7 +223,7 @@ class ToggleSettingsCommand(sublime_plugin.TextCommand):
                         setting value.
     """
 
-    def run(self, edit, settings, same_value, scope, skip_panels=False):
+    def run(self, edit, settings, same_value, scope):
         if not isinstance(settings, list): settings = [settings]
         view = self.view
         window = view.window() or sublime.active_window()
