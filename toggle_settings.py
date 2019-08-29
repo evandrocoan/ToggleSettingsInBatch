@@ -219,7 +219,7 @@ class ToggleSettingsCommand(sublime_plugin.TextCommand):
     Given several settings, toggle their values.
     window.run_command("toggle_settings", {"settings": ["fold_buttons", "line_numbers"]})
 
-    @param same_value, if True, will set either all setting to True or False, depending on the first
+    @param same_value, if True, will set either all settings to True or False, depending on the first
                         setting value.
     """
 

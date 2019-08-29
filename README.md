@@ -3,7 +3,7 @@
 
 Allow you to create your own keybindings which change view, window or global settings:
 ```js
-// @param same_value, if True, will set either all setting to True or False,
+// @param same_value, if True, will set either all settings to True or False,
 // depending on the first setting value.
 { "keys": ["ctrl+k", "ctrl+n"], "command": "toggle_settings", "args":
         {"settings": ["line_numbers", "fold_buttons", "mini_diff"],
