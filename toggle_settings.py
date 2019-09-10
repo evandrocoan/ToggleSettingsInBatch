@@ -26,6 +26,8 @@ except ImportError as error:
         return False
 
 
+# I am saving the state in this class because it is a royal pain in the ass to keep typing `global`
+# every time/everywhere I would like to use a global!
 class State(object):
     toggle_settings_for_panel = False
 
