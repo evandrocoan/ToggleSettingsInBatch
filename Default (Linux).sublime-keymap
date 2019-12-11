@@ -23,5 +23,6 @@
         },
     },
 
+    { "keys": ["ctrl+q", "="], "command": "erase_window_settings", },
     { "keys": ["ctrl+k", "ctrl+q"], "command": "toggle_settings", "args": { "settings": ["word_wrap"], "scope": "view", }, },
 ]

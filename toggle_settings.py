@@ -88,6 +88,8 @@ class EraseWindowSettingsCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
         global per_window_settings
+        sublime.run_command( "reset_font_size" )
+
         view = self.view
         window = view.window() or sublime.active_window()
 
